@@ -1,0 +1,31 @@
+<html>
+    <script>
+        function logger(module)
+        {
+            for(let key in module)
+            {
+                if(typeof module[key] === "function")
+                {
+                    var originalMethod = module[key];
+                    module[key] = function() {
+                        console.log(key + " was called");
+                        return originalMethod.apply(this, arguments);
+                    }
+                }
+            }
+        }
+        window.Module = window.Module || {
+
+        };
+        Module.method1 = function() {
+            console.log("Method 1 business logic");
+        };
+        Module.method2 = function() {
+            console.log("Method 2 business logic");
+        };
+
+        logger(Module);
+        Module.method1();
+        Module.method2();
+    </script>
+</html>
