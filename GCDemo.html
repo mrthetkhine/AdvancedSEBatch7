@@ -1,0 +1,23 @@
+<html>
+    <button type="button" id="btnAllocate">Allocate Memory</button>
+    <button type="button" id="btnDeallocate">Deallocate Memory</button>
+    <script>
+        let arr;
+        let arr2;
+        document.getElementById("btnAllocate").addEventListener("click", function() {
+            // Allocate memory logic here
+            arr = new Array(1000);
+            for(let i=0;i<arr.length;i++) {
+                arr[i] = new Array(10000);
+            }
+            console.log("Memory allocated");
+            arr2 = arr;
+        });
+        document.getElementById("btnDeallocate").addEventListener("click", function() {
+            // Deallocate memory logic here
+            arr = null; // Allow garbage collection to reclaim memory
+            arr2 = null;
+            console.log("Memory deallocated");
+        });
+    </script>
+</html>

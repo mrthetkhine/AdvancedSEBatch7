@@ -1,4 +1,4 @@
-package com.turing.advancese7.designpattern;
+package com.turing.advancese7.designpattern.singleton;
 
 public class SingletonDemo {
 	public static void main(String[]args)

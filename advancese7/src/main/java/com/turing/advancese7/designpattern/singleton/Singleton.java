@@ -1,4 +1,4 @@
-package com.turing.advancese7.designpattern;
+package com.turing.advancese7.designpattern.singleton;
 
 public class Singleton {
 	private static Singleton instance;
