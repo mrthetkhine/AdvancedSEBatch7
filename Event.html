@@ -1,0 +1,13 @@
+<html>
+    <div id="container">
+        Container
+    </div>
+    <script>
+        document.getElementById("container").addEventListener("click", function() {
+            console.log("event handler 1");
+        });
+        document.getElementById("container").addEventListener("click", function() {
+            console.log("event handler 2");
+        });
+    </script>
+</html>
