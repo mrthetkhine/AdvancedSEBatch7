@@ -1,0 +1,38 @@
+<html>
+    <script>
+        let Module = {};
+
+        Module.order = function()
+        {
+            console.log("Order placed");
+        }
+        Module.payment = function()
+        {
+            console.log("Payment made");
+        }
+        let another = {}
+        another.method = function()
+        {
+            console.log('Method called');
+        }
+        //Module.order();
+
+        const loggingHandler = {
+            get(target, prop, receiver) {
+                //console.log('Target ',target,' Prop ',prop,' Receiver ',receiver);
+                if(typeof target[prop] ==='function')
+                {
+                    console.log(prop, ' function was called');
+                }
+                return target[prop];
+            },
+
+        };
+        let proxy = new Proxy(another,loggingHandler);
+        proxy.method();
+
+        proxy = new Proxy(Module,loggingHandler);
+        proxy.order();
+        proxy.payment();
+    </script>
+</html>
