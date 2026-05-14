@@ -1,0 +1,28 @@
+<html>
+    <script>
+        //Rule 1
+        function hello()
+        {
+            console.log('Hello');
+        }
+        let fun = hello;
+        fun();
+
+        //Rule 2
+        function execute(fn)
+        {
+            console.log('inside execute ');
+            fn();
+        }
+        execute(hello);
+        function getFun()
+        {
+            console.log('getFun');
+            return function()
+            {
+                console.log('function inside getFun');
+            }
+        }
+        getFun()();
+    </script>
+</html>

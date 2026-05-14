@@ -1,0 +1,22 @@
+<html>
+    <script>
+        function div(a,b)
+        {
+            console.log('Compute div later ',a,b);
+            return a/b;
+            
+        }
+        function executeAfter(callback) {
+
+            setTimeout(function()
+            {
+                let result = div(10,2);
+                callback(result);
+            }, 3000);    
+        }
+        console.log('Start');
+        
+        executeAfter((result)=>console.log('result of delay execution ',result));
+        console.log('End');
+    </script>
+</html>

@@ -1,0 +1,48 @@
+<html>
+    <script>
+        //comparator
+        // ==0
+        // >0
+        //<0
+        function sort(items,comparator)
+        {
+            for(let i=0; i< items.length-1; i++)
+            {
+                for(let j=i+1; j< items.length; j++)
+                {
+                    if(comparator(items[i], items[j]) >0)
+                    {
+                        let temp = items[i];
+                        items[i] = items[j];
+                        items[j] = temp;
+                    }
+                    
+                }
+            }
+        }
+        let items = [2,3,1,4,5];
+        sort(items,(a,b)=>a-b);
+        console.log(items);
+
+        let students = [
+            {
+                name :'Aung Aung',
+                age :31,
+            },
+             {
+                name :'Mya Mya',
+                age :21,
+            },
+             {
+                name :'Aung Win',
+                age :41,
+            },
+             {
+                name :'Hla Aung',
+                age :30,
+            }
+        ]
+         sort(students,(a,b)=>a.age -  b.age);
+        console.log(students);
+    </script>
+</html>
