@@ -1,0 +1,17 @@
+<html>
+    <script>
+        let items = [1,2,3,4];
+        console.log('items ',items);
+        let total = items.reduce((a,b)=>{
+            console.log('a ',a, ' b ',b);
+            return a+b;
+        });
+        console.log('total ',total)
+
+        let min = items.reduce((a,b)=>{
+            console.log('a ',a, ' b ',b);
+            return a>b?b:a;
+        });
+        console.log('min ',min);
+    </script>
+</html>

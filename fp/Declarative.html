@@ -1,0 +1,30 @@
+<html>
+    <script>
+        let items = [1,2,3,4];
+        let arr2 = [];
+
+        for(const item of items)
+        {
+            arr2.push(item*2);
+        }
+        console.log('Arr2 ',arr2);
+
+        let arr3 = items.map(x=>x*2);
+        console.log('Arr3 ',arr3);
+
+        /*
+        let arr4 = [];
+        const isOdd= x=>x%2==1;
+        for(const item of items)
+        {
+            if(isOdd(item))
+            {
+                arr4.push(item);
+            }
+        }
+        */
+        let arr4 = items.filter(x=>x%2==1);
+        console.log('Arr4 ',arr4);
+        
+    </script>
+</html>

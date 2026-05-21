@@ -1,0 +1,75 @@
+<html>
+    <script>
+        /*
+        let done = false;
+        function payment()
+        {
+            if(!done)
+            {
+                console.log('Payment');
+                done = true;
+            }
+            
+        }
+        let doneOrder= false;
+        function order()
+        {
+            if(!doneOrder)
+            {
+                console.log('Order');
+                doneOrder = true;
+            }
+            
+        }
+        payment();
+        payment();
+
+        order();
+        order();
+        */
+        function payment()
+        {
+            console.log('Payment');
+        }
+        function order()
+        {
+            console.log('Order');
+        }
+        function once(fn)
+        {
+            let done = false;
+            return function(...args)
+            {
+                if(!done)
+                {
+                    fn(...args);
+                    done = true;
+                }
+            }
+        }
+        function onceAfter(fn,after)
+        {
+            let done = false;
+            return function(...args)
+            {
+                if(!done)
+                {
+                    fn(...args);
+                    done = true;
+                }
+                else
+                {
+                    after();
+                }
+            }
+        }
+        payment = onceAfter(payment,()=>console.log('Payment already called'));
+        order = onceAfter(order,()=>console.log('order already called'));
+
+        payment();
+        payment();
+
+        order();
+        order();
+    </script>
+</html>

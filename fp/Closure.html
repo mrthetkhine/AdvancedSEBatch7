@@ -1,0 +1,43 @@
+<html>
+    <script>
+        function outer()
+        {
+            let i=10;
+            function inner()
+            {
+                //console.log('I is ',i);
+                return i++;
+            }
+            return inner;
+        }
+        let fun = outer();
+        console.log('fun ',fun());
+        console.log('fun ',fun());
+        console.log('fun ',fun());
+
+        function Stack()
+        {
+            let items = [];
+            function push(item)
+            {
+                items.push(item);
+            }
+            function pop()
+            {
+                return items.pop();
+            }
+            return {
+                push,
+                pop
+            }
+        }
+        let stack = Stack();
+        stack.push(10);
+        stack.push(20);
+        stack.push(30);
+        console.log('stack ',stack.pop());
+        console.log('stack ',stack.pop());
+        console.log('stack ',stack.pop());
+
+    </script>
+</html>
