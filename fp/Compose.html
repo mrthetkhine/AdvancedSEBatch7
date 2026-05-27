@@ -1,0 +1,51 @@
+<html>
+    <script>
+        function appendHi(str)
+        {
+            return str+' Hi'; 
+        }
+        function toUpper(str)
+        {
+            return str.toUpperCase();
+        }
+        function getLength(str)
+        {
+            return str.length;
+        }
+        function appendHiAndToUpper(str)
+        {
+            return toUpper(appendHi(str));
+        }
+        console.log('appendHiAndToUpper ',appendHiAndToUpper('Hello'));
+
+        function compose(fnA,funB)
+        {
+            return function(x)
+            {
+                return fnA(funB(x));
+            }
+        }
+        let newFun = compose(toUpper,appendHi);
+        console.log('newFun ',newFun('Hello'));
+
+        function composeMany(...fns)
+        {
+            return function(x)
+            {
+                return fns.reduceRight((input,fn)=>fn(input),x);
+            }
+        }
+        function pipe(...fns)
+        {
+            return function(x)
+            {
+                return fns.reduce((input,fn)=>fn(input),x);
+            }
+        }
+        let newFun2 = composeMany(getLength,toUpper,appendHi);
+        console.log('newFun2 ',newFun2('Hello'));
+        let newFun3 = pipe(appendHi,toUpper,getLength);
+        //let newFun3 = pipe(appendHi,getLength,toUpper);
+        console.log('newFun3 ',newFun3('Hello'));
+    </script>
+</html>

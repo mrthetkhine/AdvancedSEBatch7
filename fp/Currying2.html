@@ -1,0 +1,18 @@
+<html>
+    <script src="./lib.js">
+        
+    </script>
+    <script>
+        function api(baseUrl)
+        {
+            return function(method)
+            {
+                console.log('baseUrl ',baseUrl,' method ',method);
+            }
+            
+        }
+        let api1 = api('http://example.com');
+        console.log('api ',api1('GET'));
+        console.log('api ',api1('POST'));
+    </script>
+</html>

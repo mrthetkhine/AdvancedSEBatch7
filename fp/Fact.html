@@ -1,0 +1,31 @@
+<html>
+    <script>
+        function range(start,end)
+        {
+            let arr = [];
+            for(let i=start;i<=end;i++)
+            {
+                arr.push(i);
+            }
+            return arr;
+        }
+        console.log('range ',range(1,3).reduce((a,b)=>a*b));
+
+        function filter(arr,fn)
+        {
+            return arr.reduce((a,b)=>fn(b)?[...a,b]:a,[]);
+        }
+        let items = [1,2,3,4];
+        const isEven = x=>x%2==0;
+        console.log('filter ',filter(items,isEven));
+
+        function map(arr,fn)
+        {
+            return arr.reduce((a,b)=>[...a,fn(b)],[]);
+        }
+        console.log('map ',map(items,x=>x*2));
+
+        console.log('every ',items.every(x=>x>0 ));
+        console.log('some ',items.some(isEven ));
+    </script>
+</html>

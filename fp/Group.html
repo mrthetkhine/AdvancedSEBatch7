@@ -1,0 +1,65 @@
+<html>
+    <script>
+        let students = [
+            {
+                name : 'Aung Aung',
+                age : 12,
+                gender:'Male',
+                city:'Yangon'
+            },
+            {
+                name : 'Tin Tin',
+                age : 32,
+                gender:'Female',
+                city:'Mandalay'
+            },
+            {
+                name : 'Sai Aung Tint',
+                age : 30,
+                gender:'Male',
+                city:'Yangon'
+            },
+            {
+                name : 'Win Win',
+                age : 16,
+                gender:'Female',
+                city:'Mandalay'
+            },
+            {
+                name : 'Hla Hla',
+                age : 20,
+                gender:'Female',
+                city:'Mandalay'
+            },
+            {
+                name : 'Hla Myint',
+                age : 25,
+                gender:'Male',
+                city:'Yangon'
+            },
+        ]
+        /*
+        group {
+            'Male':[],
+            'Female':[]
+        }
+        */
+       function groupBy(arr,prop)
+       {
+            let group = students.reduce((g,b)=>{
+                if(g[b[prop]])//g['Male']
+                {
+                g[b[prop]].push(b);
+                }
+                else
+                {
+                    g[b[prop]] = [b];//g['Male']=[b];
+                }
+                return g;
+        },{});
+        return group;
+       }
+       let group = groupBy(students,'city');
+       console.log('group ',group);
+    </script>
+</html>

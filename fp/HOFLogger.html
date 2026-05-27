@@ -1,0 +1,26 @@
+<html>
+    <script>
+        function payment(amount)
+        {
+            console.log('Payment of ',amount,' is processed');
+        }
+        function order(amount)
+        {
+            console.log('Order of ',amount,' is placed');
+        }
+        function logger(fn,log = console.log)
+        {
+            return function(...args)
+            {
+                log('Before ',fn.name,' with args ',args);
+                let ret = fn(...args);
+                log('After ',fn.name,' with return ',ret);
+                return ret;
+            }
+        }
+        payment = logger(payment);
+        order = logger(order);
+        payment(100);
+        order(200);
+    </script>
+</html>

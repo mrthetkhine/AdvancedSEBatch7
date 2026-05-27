@@ -1,0 +1,49 @@
+<html>
+    <script>
+        function fact(n)
+        {
+            console.log('compute fact ',n);
+            let result = 1;
+            for(let i=1;i<=n;i++)
+            {
+                result *= i;
+            }
+            return result;
+        }
+        function memonize(fn)
+        {
+            let cache = {};//{'5':120}
+            return function(x)
+            {
+                if(cache[x])
+                {
+                    //console.log('cache hit for ',x);
+                    return cache[x];
+                }
+                else
+                {
+                    //console.log('cache miss for ',x);
+                    let ret = fn(x);
+                    cache[x] = ret;
+                    return ret;
+                }
+            }
+        }
+        fact = memonize(fact);
+        console.log('fact ',fact(5));
+        console.log('fact ',fact(5));
+
+        function not(fn)
+        {
+            return function(...args)
+            {
+                return !fn(...args);
+            }
+        }
+        const isEven = x=>x%2==0;
+        const isOdd = not(isEven);
+
+        console.log('isEven ',isEven(3));
+        console.log('isOdd ',isOdd(3));
+    </script>
+</html>
