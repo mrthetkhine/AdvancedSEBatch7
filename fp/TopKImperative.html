@@ -1,0 +1,34 @@
+<html>
+    <script src="https://cdn.jsdelivr.net/npm/ramda@0.30.0/dist/ramda.min.js"></script>
+    <script>
+      
+      let items = [1,1,2,2,2,3,3,4,3,4,5,3];//[3,2]
+      let k = 2;
+
+      let groups = {};
+
+      for(const item of items)
+      {
+        if(groups[item])
+        {
+          groups[item]++;
+        }
+        else
+        {
+          groups[item] = 1;
+        }
+      }
+      console.log('groups ',groups);
+      let arr = Object.entries(groups);
+      console.log('arr ',arr);
+
+      arr.sort((a,b)=> b[1]-a[1]);
+      console.log('sorted ',arr);
+
+      let result = arr.map(x=>x[0]);
+      console.log('result ',result);
+      result.length = k;
+
+      console.log('result ',result);
+    </script>
+</html>

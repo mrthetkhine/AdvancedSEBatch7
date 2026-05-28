@@ -1,0 +1,21 @@
+<html>
+    
+    <script>
+      
+      let AddMonoid = {
+        binaryOp : (a,b)=>a+b,
+        identity : 0
+      }
+      let MinMonoid = {
+        binaryOp : (a,b)=>Math.min(a,b),
+        identity : Infinity
+      }
+      function fold(monoid,arr)
+      {
+        return arr.reduce((a,b)=>monoid.binaryOp(a,b),monoid.identity);
+      }
+      let items = [1,2,3,4,-1,13,];
+      console.log('AddMonoid ',fold(AddMonoid,items));
+      console.log('MinMonoid ',fold(MinMonoid,items));
+    </script>
+</html>

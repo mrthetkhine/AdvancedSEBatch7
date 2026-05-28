@@ -1,0 +1,28 @@
+<html>
+    <script src="https://cdn.jsdelivr.net/npm/ramda@0.30.0/dist/ramda.min.js"></script>
+    <script>
+      
+      function toUpper(str)
+      {
+        if(str ==null || str == undefined)
+        {
+          return '';
+        }
+        return str.toUpperCase();
+      }
+      function appendHi(str)
+      {
+        if(str ==null || str == undefined)
+        {
+          return '';
+        }
+        return str.concat(' Hi');
+      }
+
+      let newFun = R.pipe(toUpper,appendHi);
+      console.log('newFun("turing") ',newFun("turing"));
+
+      let data = null;
+      console.log('newFun(null) ',newFun(data));
+    </script>
+</html>

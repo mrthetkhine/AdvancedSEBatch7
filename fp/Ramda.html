@@ -1,0 +1,33 @@
+<html>
+    <script src="https://cdn.jsdelivr.net/npm/ramda@0.30.0/dist/ramda.min.js"></script>
+    <script>
+      
+      function add(x,y)
+      {
+        return x+y;
+      }
+      console.log('R.add(1) ',R.add(1));
+      console.log('R.add(1)(2) ',R.add(1)(2));
+
+      let curriedAdd = R.curry(add);
+      console.log('curriedAdd(1) ',curriedAdd(1));    
+      console.log('curriedAdd(1)(2) ',curriedAdd(1)(2));
+
+      let items = [1,2,3,4,5];
+      console.log('Find  ',R.find(x=>x>3,items));
+
+      let obj = {
+        name : "Jhon",
+        age : 31,
+      }
+      console.log('R.prop("name",obj) ',R.prop("name")(obj));
+      console.log('R.prop("age",obj) ',R.prop("age",obj));
+
+      let obj2 = R.assoc('city','Yangon',obj);
+      console.log('obj ',obj);
+      console.log('obj2 ',obj2);
+
+      let obj3 = R.assocPath(['address','city'], 'Yangon', obj);
+      console.log('obj3 ',obj3);
+    </script>
+</html>

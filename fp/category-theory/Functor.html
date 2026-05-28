@@ -1,0 +1,23 @@
+<html>
+    
+    <script>
+      
+      let x = 10;
+      const increment = (a) => a + 1;
+      const double = (a) => a * 2;
+      let x2 = increment(x);
+      console.log('x ',x,' x2 ',x2);
+
+      let Functor = (value) => ({
+        map : (fn) => Functor(fn(value)),
+        valueOf:()=>value
+      });
+
+      Functor.of = Functor;
+
+      let c1 = Functor.of(10)
+      let c2 = c1.map(increment)
+                .map(double);   
+      console.log('c1 ',c1.valueOf(),' c2 ',c2.valueOf());
+    </script>
+</html>

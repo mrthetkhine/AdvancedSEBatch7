@@ -1,0 +1,31 @@
+<html>
+    <script src="https://cdn.jsdelivr.net/npm/ramda@0.30.0/dist/ramda.min.js"></script>
+    <script>
+      
+      function toUpper(str)
+      {
+        return str.toUpperCase();
+      }
+      function appendHi(str)
+      {
+        return str.concat(' Hi');
+      }
+      let MayBe = (value) => ({
+        isEmpty(){
+          return value == null || value == undefined;
+        },
+        map (fn){
+          return this.isEmpty() ? MayBe(null) : MayBe(fn(value));
+        },
+        valueOf:()=>value
+      });
+
+      MayBe.of = MayBe;
+
+      let data = null;
+      let result = MayBe('Hello')
+                      .map(toUpper)
+                      .map(appendHi);
+      console.log('result ',result.valueOf());
+    </script>
+</html>
