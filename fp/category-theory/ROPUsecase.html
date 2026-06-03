@@ -1,0 +1,31 @@
+<html>
+    <script src="./lib.js"></script>
+    <script>
+      function validateEmail(user)
+      {
+        if(user.email && user.email.includes('@'))
+        {
+          return Right.of(user);
+        }
+        else
+        {
+          return Left.of('Invalid email');
+        }
+      }
+     function saveUser(user)
+     {  
+        console.log('User saved ',user);
+        return user;
+     }  
+     function registerUser(user)
+     {
+        validateEmail(user)
+            .map(saveUser)
+            .matchWith({
+                left:err=>console.log('Error ',err),
+                right:result=>console.log('Result ',result)
+            });
+     }
+     registerUser({email:'me@gmail.com'});      
+    </script>
+</html>

@@ -47,7 +47,7 @@
        function groupBy(arr,prop)
        {
             let group = students.reduce((g,b)=>{
-                if(g[b[prop]])//g['Male']
+                if(g[b[prop]])//g['Male'], b['gender'], b.gender
                 {
                 g[b[prop]].push(b);
                 }

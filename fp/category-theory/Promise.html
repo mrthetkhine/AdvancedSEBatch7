@@ -1,0 +1,11 @@
+<html>
+    <script src="https://cdn.jsdelivr.net/npm/ramda@0.30.0/dist/ramda.min.js"></script>
+    <script>
+      
+        Promise.reject(10)
+                .then(x=>x+1,err=>100)
+                .then(x=>console.log('Promise result ',x),
+                    err=>console.log(' error ',err));
+      
+    </script>
+</html>

@@ -1,0 +1,28 @@
+<html>
+    <script src="https://cdn.jsdelivr.net/npm/ramda@0.30.0/dist/ramda.min.js"></script>
+    <script>
+      
+        function div(a,b)
+        {
+          setTimeout(()=>{
+            if(b==0)
+            {
+              throw new Error('Division by zero');
+            }
+            else
+            {
+              return a/b;
+            } 
+          },1000);
+           
+        }
+        try
+        {
+          console.log('10/0 ',div(10,0));
+        }
+        catch(err)
+        {
+          console.log('Error ',err);
+        }
+    </script>
+</html>

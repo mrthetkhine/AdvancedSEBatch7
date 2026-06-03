@@ -1,0 +1,66 @@
+<html>
+    <script src="https://cdn.jsdelivr.net/npm/ramda@0.30.0/dist/ramda.min.js"></script>
+    <script>
+      
+        //Left->Failure
+        let Left = (value) => ({
+            map (fn){
+                return this;
+            },
+            matchWith({left,right})
+            {
+                return left(value);
+            },
+            valueOf:()=>value,
+        });
+
+        Left.of = Left;
+        //Right->Success
+        let Right = (value) => ({
+            map (fn){
+                return Right.of(fn(value));
+            },
+            matchWith({left,right})
+            {
+                return right(value);
+            },
+            valueOf:()=>value
+        });
+
+        Right.of = Right;
+
+        function div(a,b)
+        {
+            if(b==0)
+            {
+                return Left.of('Division by zero');
+            }
+            else
+            {
+                return Right.of(a/b);
+            } 
+        }
+        div(10,2)
+            .map(x=>x+1)
+            .matchWith({
+                left:()=>Right.of(0),
+                right:(value)=>Right.of(value)
+            })
+            .matchWith({
+                left:err=>console.log('Error ',err),
+                right:result=>console.log('Result ',result)
+            });
+            /*
+            try
+            {
+                result = div(10,0)
+                result ++;
+            }
+            catch(err)
+            {
+                result = 0;
+            }
+            console.log(result);
+            */
+    </script>
+</html>

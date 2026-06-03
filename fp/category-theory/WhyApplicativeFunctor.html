@@ -1,0 +1,24 @@
+<html>
+    <script src="./lib.js"></script>
+    <script>
+      let Applicative = (value) => ({
+            map : (fn) => Applicative(fn(value)),
+            ap:(another) => another.map(value),
+            valueOf:()=>value
+        });
+
+        Applicative.of = Applicative;
+
+        function add(x,y)
+        {
+            return x+y;
+        }
+        let c2 = Applicative.of(5);
+        let curriedAdd = R.curry(add);
+        let c1 = Applicative.of(10)
+                          .map(curriedAdd)// curreidAdd(10)= Applicative(curriedAdd(10))
+                          .ap(c2); // c2.map(curriedAdd(10))= Applicative(curriedAdd(10)(5))=Applicative(15)
+        console.log('c1 ',c1.valueOf());
+      
+    </script>
+</html>

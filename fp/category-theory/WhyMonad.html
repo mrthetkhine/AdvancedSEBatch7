@@ -1,0 +1,93 @@
+<html>
+   
+    <script>
+      let Left = (value) => ({
+        map (fn){
+            return this;
+        },
+        flatMap(fn)
+        {
+            return this;
+        },
+        matchWith({left,right})
+        {
+            return left(value);
+        },
+        valueOf:()=>value,
+    });
+
+    Left.of = Left;
+    //Right->Success
+    let Right = (value) => ({
+        map (fn){
+            return Right.of(fn(value));
+        },
+        flatMap(fn)
+        {
+            return fn(value);
+        },
+        matchWith({left,right})
+        {
+            return right(value);
+        },
+        valueOf:()=>value
+    });
+
+    Right.of = Right;
+        /*
+        user ={
+          name : '',
+          email:''
+        }
+      */
+      function validateName(user)
+      {
+        if(user.name && user.name.length > 3)
+        {
+          return Right.of(user);
+        }
+        else
+        {
+          return Left.of('Invalid name');
+        }
+      } 
+      function validateEmail(user)
+      {
+        console.log('validateEmail called ',user);
+        if(user.email && user.email.includes('@'))
+        {
+          return Right.of(user);
+        }
+        else
+        {
+          return Left.of('Invalid email');
+        }
+      } 
+      function saveUser(user)
+      {
+            console.log('User saved ',user);
+            return Right.of(user);
+      }  
+      let user = {
+        name : '',
+        email:'',
+      }
+      //console.log('validateEmail ');
+      /*
+      validateEmail(user)
+            .matchWith({
+                left:err=>console.log('Email Error ',err),
+                right:result=>console.log('Result ',result)
+            });
+        */
+      validateName(user)
+            //.map(validateEmail)
+            //Right.map(validateEmail)=> Right.of(Left.of('Invalid email'))
+            .flatMap(validateEmail)
+            .flatMap(saveUser)
+            .matchWith({
+                left:err=>console.log('Error ',err),
+                right:result=>console.log('Result ',result)
+            });
+    </script>
+</html>
