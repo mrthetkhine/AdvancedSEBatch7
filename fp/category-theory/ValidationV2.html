@@ -1,0 +1,134 @@
+<html>
+<script src="https://cdn.jsdelivr.net/npm/ramda@0.27.1/dist/ramda.min.js"></script>
+<script>
+    let Left = (value) => ({
+        value,
+        map (fn){
+            return this;
+        },
+        matchWith({left,right})
+        {
+            return left(value);
+        },
+        isLeft()
+        {
+            return true;
+        },
+        and(another)
+        {
+            return another.isLeft() ? Left.of(this.value+' '+another.value) : another;
+        },
+        or(another)
+        {
+            //console.log('Left.or',this.value, ' Another ',another);
+            return another.isLeft() ?  Left.of(this.value+' , '+another.value) : another;
+        },
+        valueOf:()=>value,
+    });
+
+    Left.of = Left;
+    //Right->Success
+    let Right = (value) => ({
+        map (fn){
+            return Right.of(fn(value));
+        },
+        isLeft()
+        {
+            return false;
+        },
+        and(another)
+        {
+            //other Right//Left
+            return another;
+        },
+        or(another)
+        {
+            return this;
+        },
+        matchWith({left,right})
+        {
+            return right(value);
+        },
+        valueOf:()=>value
+    });
+
+    Right.of = Right;
+    //minLength(3)('abc')->true
+    //minLength('abc')(3)->true
+
+    const minLength = (length) => (str) => str.length >= length;
+    const maxLength = (length) => (str) => str.length <= length;
+    const isEmpty = (str) => str.length === 0;
+    const validEmail= (email) => email.includes('@');
+    
+    const minLength3 = minLength(3);
+    const maxLength5 = maxLength(5);
+    
+
+    //input->boolean
+    //input->Either (Left/Right),Right(input),Left(errorMessage)
+
+    function lift(fn,errorMessage)
+    {
+        return function(x)
+        {
+            return fn(x) ? Right.of(x) : Left.of(errorMessage);
+        }
+    }
+    //and(fns)
+    //or(fns)
+    function and(...fns)//fn =>input->boolean
+    {
+        return function(x)
+        {
+            return fns.reduce((acc,fn)=> acc && fn(x),true);
+        }
+    }
+    //Either.and(Either)=>Either
+    function andV2(...fns)//fn =>input->Either
+    {
+        return function(x)
+        {
+            return fns.reduce((acc,fn)=> acc.and(fn(x)),Right.of(x));
+        }
+    }
+    function orV2(...fns)
+    {
+        return function(x)
+        {
+            return fns.reduce((acc,fn)=> acc.or(fn(x)),Left.of(''));
+        }
+    }
+    let validUserName = (user)=> minLength(3)(user.name);
+    let validUserEmail = (user)=> validEmail(user.email);
+
+    let validUserNameV2 = lift(validUserName,'Name should be at least 3 characters');
+    let validUserEmailV2 = lift(validUserEmail,'Invalid email');
+
+    
+
+    let validateUser = andV2(validUserNameV2,validUserEmailV2);
+    /*
+    minLength3V2('abce').matchWith({
+        left: (err) => console.log('Error ',err),
+        right: (name) => console.log('Valid name ',name)
+    });
+    validEmailV2('me@email').matchWith({
+        left: (err) => console.log('Error ',err),
+        right: (email) => console.log('Valid email ',email)
+    });*/
+    
+    validateUser({name:'',email:''})
+        .matchWith({
+            left: (err) => console.log('Error ',err),
+            right: (user) => console.log('Valid user ',user)
+        });
+    
+    let validateNameOrEmail = orV2(validUserNameV2,validUserEmailV2);   
+    validateNameOrEmail({name:'',email:''})
+        .matchWith({
+            left: (err) => console.log('validateNameOrEmail Error ',err),
+            right: (user) => console.log('validateNameOrEmail Valid user ',user)
+        }); 
+</script>
+</html>

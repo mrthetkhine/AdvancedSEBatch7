@@ -1,0 +1,34 @@
+<html>
+   
+    <script>
+      const double = (x) => {//[result,logMessage]
+        return [x * 2,'Double was called '];
+      }
+      const inc = (x) => {
+        return [x + 1,'Inc was called '];
+      }
+      const compose = (f,g)=> x=> f(g(x));
+
+      function composeDebug(f,g)
+      {
+          return function(x)
+          {
+              let [result,log] = g(x);
+              let [result2,log2] = f(result);
+              return [result2,log+","+log2];
+          }
+      }
+      let newFunc = composeDebug(double, inc);
+      console.log('newFunc ',newFunc(2));
+
+      var bind = (f) => function(tuple) {
+            const [x, s] = tuple,
+            [y, t] = f(x);
+            return [y, s + t];
+      };
+      const unit = (x)=> [x,''];
+      var f = compose(bind(double), bind(inc));
+      f = compose(f,unit);
+      console.log('f ',f(2));
+    </script>
+</html>

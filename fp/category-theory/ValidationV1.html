@@ -1,0 +1,55 @@
+<html>
+<script src="https://cdn.jsdelivr.net/npm/ramda@0.27.1/dist/ramda.min.js"></script>
+<script>
+    //minLength(3)('abc')->true
+    //minLength('abc')(3)->true
+
+    const minLength = (length) => (str) => str.length >= length;
+    const maxLength = (length) => (str) => str.length <= length;
+    const isEmpty = (str) => str.length === 0;
+    const validEmail= (email) => email.includes('@');
+    
+    const minLength3 = minLength(3);
+    const maxLength5 = maxLength(5);
+    console.log('Min length 3 abc',minLength3('abc'));
+    console.log('Min length 3 ab',minLength3('ab'));
+
+    console.log('Max length 5 abcde',maxLength5('abcde'));
+    console.log('Max length 5 abcdef',maxLength5('abcdef'));
+
+    console.log('Valid email abc@abc',validEmail('abc@abc'));
+    console.log('Valid email none',validEmail('none'));
+
+    console.log('iS empty "" ',isEmpty(''));
+    console.log('iS empty "abc" ',isEmpty('abc'));
+
+    //and(fns)
+    //or(fns)
+    function and(...fns)
+    {
+        return function(x)
+        {
+            return fns.reduce((acc,fn)=> acc && fn(x),true);
+        }
+    }
+    function or(...fns)
+    {
+        return function(x)
+        {
+            return fns.reduce((acc,fn)=> acc || fn(x),false);
+        }
+    }
+    let validPassword = and(minLength(3),maxLength(5));
+    console.log('Valid password abc ',validPassword('abc'));
+    console.log('Valid password ab ',validPassword('ab'));
+    console.log('Valid password abcdef ',validPassword('abcdef'));
+
+    const not= fn => x => !fn(x);
+    let validUsername = or(not(isEmpty),maxLength(5));
+    console.log('Valid username "" ',validUsername(''));
+    console.log('Valid username abc ',validUsername('abc'));    
+    console.log('Valid username abcdef ',validUsername('abcdef'));    
+
+</script>
+
+</html>
