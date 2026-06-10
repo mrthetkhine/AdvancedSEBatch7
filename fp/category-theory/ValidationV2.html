@@ -105,8 +105,6 @@
     let validUserNameV2 = lift(validUserName,'Name should be at least 3 characters');
     let validUserEmailV2 = lift(validUserEmail,'Invalid email');
 
-    
-
     let validateUser = andV2(validUserNameV2,validUserEmailV2);
     /*
     minLength3V2('abce').matchWith({

@@ -5,6 +5,10 @@
         map (fn){
             return this;
         },
+        flat()
+        {
+            return value;
+        },
         flatMap(fn)
         {
             return this;
@@ -21,6 +25,10 @@
     let Right = (value) => ({
         map (fn){
             return Right.of(fn(value));
+        },
+        flat()
+        {
+            return value;
         },
         flatMap(fn)
         {
