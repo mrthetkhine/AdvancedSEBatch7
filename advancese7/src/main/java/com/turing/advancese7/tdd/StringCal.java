@@ -2,15 +2,14 @@ package com.turing.advancese7.tdd;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
-
+enum State
+{
+	INITIAL_STATE,
+	INPUT_READING_STATE,
+}
 public class StringCal {
 
-	static final int INITIAL_STATE =0;
-	static final int INPUT_READING_STATE =1;
-	
 	List<Character> seperators = new ArrayList<>();
 	public StringCal()
 	{
@@ -38,7 +37,7 @@ public class StringCal {
 		List<String> numberList = new ArrayList<>();
 		String numberToken = "";
 		
-		int state = INITIAL_STATE;//Input reading
+		State state = State.INITIAL_STATE;//Input reading
 		System.out.println("Input ==> "+input);
 		
 		for(int i=0;i<input.length();i++)
@@ -58,7 +57,7 @@ public class StringCal {
 					{
 						System.out.println("seperator case "+ch);
 						numberList.add(numberToken);
-						state = INPUT_READING_STATE;
+						state = State.INPUT_READING_STATE;
 						numberToken="";
 					}
 					else
@@ -75,7 +74,7 @@ public class StringCal {
 					}
 					else if(this.isValidInput(ch))
 					{
-						state = INITIAL_STATE;
+						state = State.INITIAL_STATE;
 						numberToken= ""+ch;
 					}
 					else
@@ -89,7 +88,7 @@ public class StringCal {
 		{
 			numberList.add(numberToken);
 		}
-		else if(state==INPUT_READING_STATE && numberToken.isEmpty())
+		else if(state==State.INPUT_READING_STATE && numberToken.isEmpty())
 		{
 			System.out.println("This case");
 			throw new RuntimeException("Number expected but EOF found.");
