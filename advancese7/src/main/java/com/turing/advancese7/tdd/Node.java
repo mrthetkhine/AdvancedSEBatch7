@@ -33,4 +33,21 @@ public class Node {
 	public void setRight(Node right) {
 		this.right = right;
 	}
+	boolean isLeaf()
+	{
+		return this.left == null && this.right == null;
+	}
+	boolean haveOneChild()
+	{
+		int count =0;
+		if(this.left != null)
+		{
+			count ++;
+		}
+		if(this.right != null)
+		{
+			count ++;
+		}
+		return count == 1 ;
+	}
 }

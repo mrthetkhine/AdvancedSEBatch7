@@ -50,6 +50,7 @@ public class BinarySearchTree {
 		return this.root;
 	}
 
+	
 	public Node search(int value) {
 		Node current = this.root;
 		while(current != null)
@@ -200,5 +201,98 @@ public class BinarySearchTree {
 			return nodes.get(index++);
 		}
 		
+	}
+	public void delete(int value) {
+		if(isRootWithNoChild(value))
+		{
+			this.root = null;
+		}
+		else
+		{
+			Node parent = null;
+			Node current = this.root;
+			while(current != null)
+			{
+				int nodeValue = current.getValue();
+				
+				if(nodeValue == value)
+				{
+					if(current.isLeaf())//Case I ,Leaf
+					{
+						deleteLeafCase(value, parent);
+						return;
+					}
+					//Case II,one child
+					else if(current.haveOneChild())
+					{
+						deleteOneChildCase(current);
+						return;
+					}
+					else//Case III,two child, replace with in-order successor
+					{
+						deleteTwoChildCase(current);
+					}
+					
+				}
+				else if(nodeValue < value)
+				{
+					parent = current;
+					current = current.getRight();	
+				}
+				else 
+				{
+					parent = current;
+					current = current.getLeft();
+				}
+			}
+			
+		}
+		
+	}
+
+	private void deleteTwoChildCase(Node current) {
+		Node successor = current.getRight();
+		
+		while(successor.getLeft() != null)
+		{
+			
+			successor = successor.getLeft();
+		}
+		int successorValue = successor.value;
+		//delete successor
+		this.delete(successorValue);
+		current.value = successorValue;
+	}
+
+	private boolean isRootWithNoChild(int value) {
+		return this.root.getValue() == value && this.root.left == null && this.root.right==null;
+	}
+
+	private void deleteOneChildCase(Node current) {
+		if(current.getLeft() != null)
+		{
+			current.value = current.getLeft().value;
+			current.setLeft(null);
+			return;
+		}
+		else if(current.getRight() != null)
+		{
+			current.value = current.getRight().value;
+			current.setRight(null);
+			return;
+		}
+	}
+
+	private void deleteLeafCase(int value, Node parent) {
+		if(parent.getLeft().getValue() == value)//Left child
+		{
+			parent.setLeft(null);
+			return;
+		}
+		if(parent.getRight().getValue()==value)
+		{
+			parent.setRight(null);
+			return;
+		}
 	}
 }
