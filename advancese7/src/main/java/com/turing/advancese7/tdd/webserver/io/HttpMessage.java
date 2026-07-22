@@ -1,20 +1,15 @@
-package com.turing.advancese7.tdd.webserver;
+package com.turing.advancese7.tdd.webserver.io;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class HttpMessage {
-	String httpMethod;
+	
 	String httpVersion;
 	
-	HashMap<String,String> headers = new HashMap<>();
+	LinkedHashMap<String,String> headers = new LinkedHashMap<>();
 	String body;
 	
-	public String getHttpMethod() {
-		return httpMethod;
-	}
-	public void setHttpMethod(String httpMethod) {
-		this.httpMethod = httpMethod;
-	}
 	
 	public String getHttpVersion() {
 		return httpVersion;
@@ -36,4 +31,11 @@ public class HttpMessage {
 	public void setBody(String body) {
 		this.body = body;
 	}
+	public HashMap<String, String> getHeaders() {
+		return headers;
+	}
+	public void setHeaders(LinkedHashMap<String, String> headers) {
+		this.headers = headers;
+	}
+	
 }

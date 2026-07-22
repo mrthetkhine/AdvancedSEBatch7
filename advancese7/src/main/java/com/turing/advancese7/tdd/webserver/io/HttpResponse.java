@@ -1,4 +1,4 @@
-package com.turing.advancese7.tdd.webserver;
+package com.turing.advancese7.tdd.webserver.io;
 
 import java.util.HashMap;
 
@@ -9,7 +9,7 @@ public class HttpResponse extends HttpMessage{
 	String statusCode;
 	String statusCodeDescription;
 	
-	HttpResponse()
+	public HttpResponse()
 	{
 		statusCodeMapping.put("200", "OK");
 		statusCodeMapping.put("201", "Created");

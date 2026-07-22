@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import com.turing.advancese7.tdd.webserver.handler.HandlerFactory;
+import com.turing.advancese7.tdd.webserver.io.HttpRequest;
+import com.turing.advancese7.tdd.webserver.io.HttpResponse;
 
 public class HttpRequestProcessorTest {
 	

@@ -8,6 +8,7 @@ public class HttpServer {
 	int port;
 	ServerSocket socket;
 	
+	Socket clientSocket;
 	public HttpServer(int port)
 	{
 		this.port = port;
@@ -29,15 +30,26 @@ public class HttpServer {
 	void start()
 	{
 		this.init();
+		
 		try
 		{
-			Socket clientSocket= this.socket.accept();
-			System.out.println("Client connected");
+			while(true)
+			{
+				Socket socket = this.socket.accept();
+				System.out.println("Client connected");
+				HandlerThread thread = new HandlerThread(socket);
+				thread.start();
+			}
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
 		System.out.println("Start done");
+	}
+	public static void main(String[]args)
+	{
+		HttpServer server = new HttpServer(8000);
+		server.start();
 	}
 }

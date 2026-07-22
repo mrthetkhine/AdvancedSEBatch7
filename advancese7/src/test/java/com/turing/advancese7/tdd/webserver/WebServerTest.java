@@ -1,7 +1,10 @@
 package com.turing.advancese7.tdd.webserver;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -57,6 +60,53 @@ public class WebServerTest {
 		try {
 			clientSocket = new Socket("localhost",9000);
 			assertTrue(clientSocket.isBound());
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@Test
+	public void testServerCanReturnResponse()
+	{
+		String httpRequest = "GET / HTTP/1.1\r\n"
+							+"\r\n";
+		
+		Socket socket;
+		try {
+			socket = new Socket("localhost",9000);
+			assertTrue(socket.isBound());
+			//send data to socket
+			DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
+			dOut.write(httpRequest.getBytes());
+			dOut.flush();
+			
+			DataInputStream bIn = new DataInputStream(socket.getInputStream());
+			
+			String statusLine = bIn.readLine();
+			
+			String header = bIn.readLine();
+			while(! header.isEmpty())
+			{
+				String keyValue[] = header.split(": " );
+				
+				System.out.println("Header "+keyValue[0] +" value "+keyValue[1]);
+				header = bIn.readLine();
+				
+				System.out.println("Header "+header);
+			}
+			String body = bIn.readLine();
+			if(body != null)
+			{
+				System.out.println("Body "+body);
+			}
+			System.out.println("Read body done");
+			String httpResponse = "HTTP/1.1 200 OK";
+			assertEquals(httpResponse,statusLine);
+			
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

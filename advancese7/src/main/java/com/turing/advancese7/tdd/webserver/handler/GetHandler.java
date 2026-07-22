@@ -5,8 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 
-import com.turing.advancese7.tdd.webserver.HttpRequest;
-import com.turing.advancese7.tdd.webserver.HttpResponse;
+import com.turing.advancese7.tdd.webserver.io.HttpRequest;
+import com.turing.advancese7.tdd.webserver.io.HttpResponse;
 
 public class GetHandler implements RequestHandler{
 	

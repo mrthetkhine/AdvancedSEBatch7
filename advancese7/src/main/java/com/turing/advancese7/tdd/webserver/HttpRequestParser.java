@@ -1,6 +1,9 @@
 package com.turing.advancese7.tdd.webserver;
 
+import java.io.DataInputStream;
 import java.util.StringTokenizer;
+
+import com.turing.advancese7.tdd.webserver.io.HttpRequest;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -9,6 +12,12 @@ public class HttpRequestParser {
 
 	private static final String HEADER_KEY_VALUE_SEPERATOR = ": ";
 
+	public HttpRequest parse(DataInputStream dIn) {
+		HttpRequest request = new HttpRequest();
+		
+		
+		return request;
+	}
 	public HttpRequest parse(String rawString) {
 		HttpRequest request = new HttpRequest();
 		

@@ -10,6 +10,8 @@ import com.turing.advancese7.tdd.webserver.handler.GetHandler;
 import com.turing.advancese7.tdd.webserver.handler.HandlerFactory;
 import com.turing.advancese7.tdd.webserver.handler.PostHandler;
 import com.turing.advancese7.tdd.webserver.handler.RequestHandler;
+import com.turing.advancese7.tdd.webserver.io.HttpRequest;
+import com.turing.advancese7.tdd.webserver.io.HttpResponse;
 
 public class HttpRequestProcessor {
 	HandlerFactory factory;
