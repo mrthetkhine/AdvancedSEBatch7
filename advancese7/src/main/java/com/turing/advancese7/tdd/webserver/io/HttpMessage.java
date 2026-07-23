@@ -37,5 +37,12 @@ public class HttpMessage {
 	public void setHeaders(LinkedHashMap<String, String> headers) {
 		this.headers = headers;
 	}
+	@Override
+	public String toString() {
+		return "HttpMessage [httpVersion=" + httpVersion + ", headers=" + headers + ", body=" + body
+				+ ", getHttpVersion()=" + getHttpVersion() + ", getBody()=" + getBody() + ", getHeaders()="
+				+ getHeaders() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
+	}
 	
 }

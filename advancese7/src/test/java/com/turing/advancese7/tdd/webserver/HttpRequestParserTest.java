@@ -27,6 +27,19 @@ public class HttpRequestParserTest {
 		assertEquals("HTTP/1.1",request.getHttpVersion());
 	}
 	@Test
+	void testStartLineWithEmptyBody()
+	{
+		
+		String httpRequest = "GET / HTTP/1.1\r\n"
+								+"\r\n";
+		
+		HttpRequest request = parser.parse(httpRequest);
+		
+		assertEquals("GET",request.getHttpMethod());
+		assertEquals("/",request.getUrl());
+		assertEquals("HTTP/1.1",request.getHttpVersion());
+	}
+	@Test
 	void testStartLinePost()
 	{
 		
@@ -72,6 +85,8 @@ public class HttpRequestParserTest {
 		assertEquals("application/json",request.getHeader("Content-Type"));
 		assertEquals("345",request.getHeader("Content-Length"));
 		assertEquals(body,request.getBody());
+		
+		System.out.println("Body "+request.getBody());
 	}
 	@Test
 	void testStartLineWithInputStream()
@@ -82,13 +97,71 @@ public class HttpRequestParserTest {
 		
 		try
 		{
-			String line = dIn.readLine();
-			System.out.println("Line===> "+line);
+			
 			
 			HttpRequest request = parser.parse(dIn);
 			assertEquals("GET",request.getHttpMethod());
 			assertEquals("/",request.getUrl());
 			assertEquals("HTTP/1.1",request.getHttpVersion());
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+	
+	}
+	@Test
+	void testStartLineWithInputStreamWithNoBody()
+	{
+		String httpRequest = "GET / HTTP/1.1\r\n"
+						+"\r\n";
+		ByteArrayInputStream stream = new ByteArrayInputStream(httpRequest.getBytes());
+		DataInputStream dIn = new DataInputStream(stream);
+		
+		try
+		{
+			
+			
+			HttpRequest request = parser.parse(dIn);
+			assertEquals("GET",request.getHttpMethod());
+			assertEquals("/",request.getUrl());
+			assertEquals("HTTP/1.1",request.getHttpVersion());
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+	
+	}
+	
+	@Test
+	void testPaseRequestWithHeaderAndBody()
+	{
+		String body = "{value:100}";
+		String httpRequest = "GET / HTTP/1.1\r\n"
+							+"Content-Type: text/html\r\n"
+							+"Content-Length: "+body.length()+"\r\n"
+							+"\r\n"
+							+body;
+		ByteArrayInputStream stream = new ByteArrayInputStream(httpRequest.getBytes());
+		DataInputStream dIn = new DataInputStream(stream);
+		
+		try
+		{
+			
+			
+			HttpRequest request = parser.parse(dIn);
+			assertEquals("GET",request.getHttpMethod());
+			assertEquals("/",request.getUrl());
+			assertEquals("HTTP/1.1",request.getHttpVersion());
+			
+			assertEquals("text/html",request.getHeader("Content-Type"));
+			assertEquals(body.length()+"",request.getHeader("Content-Length"));
+			
+			assertEquals(body,request.getBody());
+			
 		}
 		catch(Exception e)
 		{

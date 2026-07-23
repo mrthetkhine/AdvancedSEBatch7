@@ -23,7 +23,7 @@ public class HttpRequestProcessor {
 	
 	public HttpResponse handle(HttpRequest request) {
 		HttpResponse response = new HttpResponse();
-		
+		response.setHttpVersion(request.getHttpVersion());
 		RequestHandler handler = this.factory.getHandler(request.getHttpMethod());
 		handler.handle(request, response);
 		

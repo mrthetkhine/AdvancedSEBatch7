@@ -1,6 +1,7 @@
 package com.turing.advancese7.tdd.webserver;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.DataInputStream;
@@ -15,6 +16,31 @@ import org.junit.jupiter.api.Test;
 
 import lombok.extern.slf4j.Slf4j;
 
+class Response
+{
+	String statusLine;
+	String headers;
+	String body;
+	public String getStatusLine() {
+		return statusLine;
+	}
+	public void setStatusLine(String statusLine) {
+		this.statusLine = statusLine;
+	}
+	public String getHeaders() {
+		return headers;
+	}
+	public void setHeaders(String headers) {
+		this.headers = headers;
+	}
+	public String getBody() {
+		return body;
+	}
+	public void setBody(String body) {
+		this.body = body;
+	}
+	
+}
 @Slf4j
 public class WebServerTest {
 	
@@ -69,48 +95,132 @@ public class WebServerTest {
 		}
 		
 	}
+	private Socket createSocketAndSendRequest(String httpRequest) throws UnknownHostException, IOException {
+		Socket socket;
+		socket = new Socket("localhost",9000);
+		//send data to socket
+		
+		DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
+		dOut.write((httpRequest+"\r\n").getBytes());
+
+		dOut.flush();
+		return socket;
+	}
+	Response parseResponse(Socket socket) throws Exception
+	{
+		DataInputStream bIn = new DataInputStream(socket.getInputStream());
+		Response response = new Response();
+		
+		String statusLine = bIn.readLine();
+		response.setStatusLine(statusLine);
+		
+		String allHeader = "";
+		String header = bIn.readLine();
+		while(! header.isEmpty())
+		{
+			
+			allHeader += (header+"\r\n");
+			//System.out.println("Append "+allHeader + " header "+header);
+			String keyValue[] = header.split(": " );
+			
+			//System.out.println("Header "+keyValue[0] +" ==> "+keyValue[1]);
+			header = bIn.readLine();
+			
+			
+		}
+		//System.out.println("All Headers ==> "+allHeader);
+		response.setHeaders(allHeader);
+		
+		System.out.println("Available before body "+bIn.available());
+		byte bytes[] = new byte[bIn.available()];
+		
+		bIn.read(bytes);
+		
+		String body = new String(bytes);
+		
+		System.out.println("Done parsing response body");
+		response.setBody(body);
+		return response;
+	}
 	@Test
-	public void testServerCanReturnResponse()
+	public void testServerCanReturnResponse() 
 	{
 		String httpRequest = "GET / HTTP/1.1\r\n"
 							+"\r\n";
 		
 		Socket socket;
 		try {
-			socket = new Socket("localhost",9000);
-			assertTrue(socket.isBound());
-			//send data to socket
-			DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
-			dOut.write(httpRequest.getBytes());
-			dOut.flush();
+			socket = createSocketAndSendRequest(httpRequest);
+			Response response = this.parseResponse(socket);
 			
-			DataInputStream bIn = new DataInputStream(socket.getInputStream());
-			
-			String statusLine = bIn.readLine();
-			
-			String header = bIn.readLine();
-			while(! header.isEmpty())
-			{
-				String keyValue[] = header.split(": " );
-				
-				System.out.println("Header "+keyValue[0] +" value "+keyValue[1]);
-				header = bIn.readLine();
-				
-				System.out.println("Header "+header);
-			}
-			String body = bIn.readLine();
-			if(body != null)
-			{
-				System.out.println("Body "+body);
-			}
-			System.out.println("Read body done");
+			System.out.println("Read done "+response.getBody());
 			String httpResponse = "HTTP/1.1 200 OK";
-			assertEquals(httpResponse,statusLine);
+			
+			assertEquals(httpResponse,response.getStatusLine());
+			assertTrue(response.getHeaders().contains("Content-Type: text/html"));
+			
 			
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@Test
+	public void testServerCanReturn200ResponseToDefaultRoute()
+	{
+		String httpRequest = "GET / HTTP/1.1\r\n"
+				+"\r\n";
+
+		Socket socket;
+		try {
+			socket = createSocketAndSendRequest(httpRequest);
+
+			Response response = this.parseResponse(socket);
+			
+			String httpResponse = "HTTP/1.1 200 OK";
+			assertEquals(httpResponse,response.getStatusLine());
+			assertTrue(response.getHeaders().contains("Content-Type: text/html"));
+			
+			assertNotNull(response.body);
+			
+			
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@Test
+	public void testServerCanReturn200ResponseToIndexHtml()
+	{
+		String httpRequest = "GET /index.html HTTP/1.1\r\n"
+				+"\r\n";
+
+		Socket socket;
+		try {
+			socket = createSocketAndSendRequest(httpRequest);
+
+			Response response = this.parseResponse(socket);
+			
+			String httpResponse = "HTTP/1.1 200 OK";
+			assertEquals(httpResponse,response.getStatusLine());
+			assertTrue(response.getHeaders().contains("Content-Type: text/html"));
+			
+			assertNotNull(response.body);
+			System.out.println("Body==> "+response.getBody());
+			assertTrue(response.body.contains("Hello from index"));
+			
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

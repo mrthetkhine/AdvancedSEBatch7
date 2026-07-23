@@ -18,5 +18,14 @@ public class HttpRequest extends HttpMessage {
 	public void setHttpMethod(String httpMethod) {
 		this.httpMethod = httpMethod;
 	}
+	@Override
+	public String toString() {
+		return "HttpRequest [url=" + url + ", httpMethod=" + httpMethod + ", httpVersion=" + httpVersion + ", headers="
+				+ headers + ", body=" + body + ", getUrl()=" + getUrl() + ", getHttpMethod()=" + getHttpMethod()
+				+ ", getHttpVersion()=" + getHttpVersion() + ", getBody()=" + getBody() + ", getHeaders()="
+				+ getHeaders() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
+	}
+	
 	
 }

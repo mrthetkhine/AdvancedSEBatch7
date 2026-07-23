@@ -1,32 +1,53 @@
 package com.turing.advancese7.tdd.webserver;
 
 import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import com.turing.advancese7.tdd.webserver.handler.HandlerFactory;
+import com.turing.advancese7.tdd.webserver.io.HttpRequest;
 import com.turing.advancese7.tdd.webserver.io.HttpResponse;
 
 public class HandlerThread extends Thread{
 	Socket socket;
 	
-	public HandlerThread(Socket socket)
+	HttpRequestParser requestParser;
+	HttpRequestProcessor processor;
+	HttpResponseWriter writer;
+	
+	public HandlerThread(HttpRequestParser requestParser,
+			HttpRequestProcessor processor,
+			HttpResponseWriter writer,
+			Socket socket
+			)
 	{
+		this.requestParser = requestParser;
+		this.processor = processor;
+		this.writer = writer;
 		this.socket = socket;
 	}
 	public void run()
 	{
 		//Read request
 		//Send response
-		HttpResponse response = createHttpResponse();
 		
-		HttpResponseWriter writer = new HttpResponseWriter();
 		try {
+			System.out.println("Before parse");
+			HttpRequest request = requestParser.parse(new DataInputStream(this.socket.getInputStream()));
+			System.out.println("HttpRequest "+request);
+			
+			HttpResponse response = processor.handle(request);
+			System.out.println("HttpResponse "+response);
+			
+			
+			HttpResponseWriter writer = new HttpResponseWriter();
 			writer.writeBufferedOutput(response, new BufferedOutputStream(this.socket.getOutputStream()));
-			//this.socket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		
 	}
 	private HttpResponse createHttpResponse() {

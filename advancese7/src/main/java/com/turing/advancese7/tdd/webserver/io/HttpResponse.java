@@ -29,6 +29,17 @@ public class HttpResponse extends HttpMessage{
 	public String getStatusCodeDescription() {
 		return statusCodeDescription;
 	}
+
+
+	@Override
+	public String toString() {
+		return "HttpResponse [statusCodeMapping=" + statusCodeMapping + ", statusCode=" + statusCode
+				+ ", statusCodeDescription=" + statusCodeDescription + ", httpVersion=" + httpVersion + ", headers="
+				+ headers + ", body=" + body + ", getStatusCode()=" + getStatusCode() + ", getStatusCodeDescription()="
+				+ getStatusCodeDescription() + ", getHttpVersion()=" + getHttpVersion() + ", getBody()=" + getBody()
+				+ ", getHeaders()=" + getHeaders() + ", toString()=" + super.toString() + ", getClass()=" + getClass()
+				+ ", hashCode()=" + hashCode() + "]";
+	}
 	
 	
 }
